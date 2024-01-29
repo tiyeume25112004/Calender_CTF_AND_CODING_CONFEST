@@ -1,21 +1,7 @@
-# import requests
-# url="http://clist.by/get/events/"
-# cookies={
-#     "csrftoken":"UBvdcQvjO9qHImwrGosGl9tqG2nD0mioJNShQUF9ULhD20G6PpPRhSVeEzYAlBAd"
-# }
-# data={
-#     "categories":"calendar"
-# }
-# headers={
-#     "x-csrftoken":"UBvdcQvjO9qHImwrGosGl9tqG2nD0mioJNShQUF9ULhD20G6PpPRhSVeEzYAlBAd",
-#     "Referer": url
-# }
-# r=requests.post(url,cookies=cookies,data=data,headers=headers)
-# print(r.status_code)
 import requests
 import json
 import datetime
-from datetime import date
+
 url = 'https://clist.by/get/events/'
 
 headers = {
@@ -28,9 +14,11 @@ headers = {
     'Referer': 'https://clist.by'
 }
 
+end_date = datetime.date.today() + datetime.timedelta(days=1)
+
 data = {
     'start': datetime.date.today(),
-    'end': f'2023-{date.today().month}-{date.today().day+1}',
+    'end': end_date.strftime('%Y-%m-%d'),
     'categories': 'calendar',
     'search_query': '',
     'status': ''
@@ -49,9 +37,5 @@ if r.status_code == 200:
         start:{repo['start']} 
         end:{repo['end']}
         --------------------------  """)
-        # print(f'{repo["title"]}: {repo["host"]: {repo["start"]}: {repo["end"]}: {repo["url"]}: }')
-    # Process the retrieved events as needed
-    # print(events)
 else:
     print('Failed to retrieve events. Status code:', r.status_code)
-# Lưu ý, nó không hoàn thiện và sẽ xảy ra lỗi gần cuối tháng nên nếu ai đó muốn dùng thì tự hoàn thiện nha
